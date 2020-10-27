@@ -75,10 +75,22 @@ router.post('/api/posts', (req, res) => {
     })
 })
 
-
 // @desc		Add a new post
 // @route		POST /:id/comments
-router.post('/api/posts/:id/comments')
+router.post('/api/posts/:id/comments', (req, res) => {
+    const newComment = {post_id: req.params.id, ...req.body}
+    Posts.insertComment(newComment)
+    .then(data => {
+        console.log(data)
+        res.status(201).json(data)
+    })
+    .catch(error => {
+        res.status(500).json({
+            message: error.message,
+            stack: error.stack
+        })
+    })
+})
 
 
 // @desc		Update a post by id
