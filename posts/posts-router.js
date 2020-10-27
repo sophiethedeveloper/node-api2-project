@@ -115,7 +115,21 @@ router.post('/api/posts/:id/comments', (req, res) => {
 
 // @desc		Remove a post by id
 // @route		DELETE /:id
-
+router.delete('/api/posts/:id', (req, res) => {
+    Posts.remove(req.params.id)
+    .then(count => {
+        if (count > 0) {
+            res.status(200).json({ message: 'The post has been deleted'})
+        } else {
+            res.status(404).json({ message: "The post with the specified ID does not exist." })
+        }
+    })
+    .catch(error => {
+        res.status(500).json({
+            message: error.message
+        })
+    })
+})
 
 
 module.exports = router;
