@@ -95,6 +95,23 @@ router.post('/api/posts/:id/comments', (req, res) => {
 
 // @desc		Update a post by id
  // @route		PUT /:id
+ router.put('/api/posts/:id', (req, res) => {
+     const changes = req.body;
+     Posts.update(req.params.id, changes)
+     .then(post => {
+         if(post) {
+             res.status(200).json(post)
+         } else {
+             res.status(404).json({message: "The post with the specified ID does not exist." })
+         }
+     })
+     .catch(error => {
+         res.status(500).json({
+             message: error.message,
+             stack: error.stack
+         })
+     })
+ })
 
 // @desc		Remove a post by id
 // @route		DELETE /:id
